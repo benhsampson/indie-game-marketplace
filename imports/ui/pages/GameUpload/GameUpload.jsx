@@ -6,7 +6,6 @@ export default class GameUpload extends Component {
   render() {
     return (
       <div>
-        <h4>New Game</h4>
         <GameEditor history={this.props.history} />
       </div>
     );

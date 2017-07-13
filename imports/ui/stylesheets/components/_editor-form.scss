@@ -1,0 +1,29 @@
+.tags-input.input-field {
+  display: flex;
+}
+
+.tags-input input {
+  flex-grow: 100;
+  width: auto !important;
+}
+
+.tags-input a.btn {
+  margin-left: 10px;
+}
+
+.banner-upload {
+  border: 1px dashed #616161;
+  cursor: pointer;
+  font-weight: 500;
+  padding-bottom: 36.015276145%;
+  position: relative;
+  width: 100%;
+}
+
+.banner-upload p {
+  left: 50%;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
