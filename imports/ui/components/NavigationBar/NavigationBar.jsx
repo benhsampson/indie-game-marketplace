@@ -1,0 +1,21 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import PublicNavBar from '../PublicNavBar/PublicNavBar';
+import AuthenticatedNavBar from '../AuthenticatedNavBar/AuthenticatedNavBar';
+
+const NavigationBar = props => (
+  <div>
+    {!props.authenticated ? <PublicNavBar /> : <AuthenticatedNavBar {...props} />}
+  </div>
+);
+
+NavigationBar.defaultProps = {
+  username: ''
+};
+
+NavigationBar.propTypes = {
+  authenticated: PropTypes.bool.isRequired
+};
+
+export default NavigationBar;
