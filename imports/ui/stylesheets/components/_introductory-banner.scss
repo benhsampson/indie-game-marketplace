@@ -1,0 +1,29 @@
+.introductory-banner {
+  align-items: center;
+  display: flex;
+  height: 250px !important;
+}
+
+.introductory-banner .section {
+  width: 100% !important;
+}
+
+.introductory-banner .section h1 {
+  font-weight: 500;
+  margin: 0 !important;
+}
+
+.introductory-banner .section p {
+  margin: 0 !important;
+}
+
+.introductory-banner .section a.learn-more {
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.introductory-banner a.close {
+  right: 10px;
+  position: absolute;
+  top: 10px;
+}
