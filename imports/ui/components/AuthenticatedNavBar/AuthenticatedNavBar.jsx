@@ -1,35 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 
 const handleProfileNav = username => `/profile/${username}`;
 
-const AuthenticatedNavBar = ({ username }) => (
-  <div className="navbar-fixed">
-    <nav>
-      <div className="nav-wrapper">
-        <Link to="/" className="brand-logo left">PLACEHOLDER</Link>
-        <ul id="nav-mobile" className="left hide-on-med-and-down">
-          <li><Link to="/games">Browse Games</Link></li>
-          <li><Link to="/games/new" className="waves-effect waves-light btn">Upload <i className="material-icons right">file_upload</i></Link></li>
-        </ul>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li>
-            <a data-activates="dropdown1" data-beloworigin="true" data-constrainwidth="false" href="#" className="dropdown-button">
-              {username}
-              <i className="material-icons right">arrow_drop_down</i>
-            </a>
-          </li>
+export default class AuthenticatedNavBar extends Component {
+  componentDidMount() {
+    $(document).ready(function () {
+      $(".dropdown-button").dropdown();
+    });
+  }
+  render() {
+    return (
+      <div className="navbar-fixed">
+        <ul id="dropdown1" className="dropdown-content">
+          <li><Link to={handleProfileNav(this.props.username)}>My Profile</Link></li>
+          <li className="divider"></li>
+          <li><Link to="/dashboard">My Dashboard</Link></li>
+          <li><Link to="user/settings">Settings</Link></li>
+          <li className="divider"></li>
           <li><a onClick={() => Meteor.logout()}>logout</a></li>
         </ul>
+        <nav>
+          <div className="nav-wrapper">
+            <Link to="/" className="brand-logo left">PLACEHOLDER</Link>
+            <ul id="nav-mobile" className="left hide-on-med-and-down">
+              <li><Link to="/games">Browse Games</Link></li>
+              <li><Link to="/games/new" className="waves-effect waves-light btn">Upload <i className="material-icons right">file_upload</i></Link></li>
+            </ul>
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li>
+                <a data-activates="dropdown1" data-beloworigin="true" data-alignment="right" className="dropdown-button">
+                  {this.props.username}
+                  <i className="material-icons right">arrow_drop_down</i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
-    </nav>
-  </div>
-);
+    );
+  }
+}
 
 AuthenticatedNavBar.propTypes = {
   username: PropTypes.string.isRequired
 };
-
-export default AuthenticatedNavBar;
