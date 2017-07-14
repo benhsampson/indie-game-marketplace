@@ -11,7 +11,6 @@ export class GameEdit extends Component {
   render() {
     return this.props.game ? (
       <div>
-        <h4>{`Editing '${this.props.game.title}'`}</h4>
         <GameEditor game={this.props.game} history={this.props.history} />
       </div>
     ) : <GameNotFound />;

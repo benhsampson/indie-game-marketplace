@@ -40,9 +40,9 @@ export class GameView extends Component {
     const embedUrl = `https://youtube.com/embed/${videoId}`;
     return game.visibility || game.owner === Meteor.userId() ? (
       <div>
-        <img src={game.bannerImage} width="851" height="315" />
+        {/* <img src={game.bannerImage} width="851" height="315" /> */}
         <h3>{game.title}</h3>
-        <PaymentTest
+        {/* <PaymentTest
           price={game.minPrice}
           image={game.thumbnailImage}
           title={game.title}
@@ -69,7 +69,7 @@ export class GameView extends Component {
           <button onClick={() => this.props.history.push(`/games/${this.props.match.params._id}/edit`)}>
             Edit
           </button> : undefined
-        }
+        } */}
         {game.commentsEnabled ? <p>comments</p> : undefined}
       </div>
     ) : <GameNotFound />;

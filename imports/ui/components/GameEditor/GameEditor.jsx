@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import DropZone from 'react-dropzone';
 import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 import $ from 'jquery';
@@ -23,6 +24,11 @@ export default class GameEditor extends Component {
   }
   componentDidMount() {
     const component = this;
+
+    $(document).ready(function() {
+      $('select').material_select();
+      Materialize.updateTextFields();
+    });
 
     if (this.props.game && this.props.game._id) {
       this.props.game.commentsEnabled ? $('#commentsEnabled').prop('checked', true) : $('#commentsEnabled').prop('checked', false);
@@ -106,7 +112,7 @@ export default class GameEditor extends Component {
   addGameFile() {
     if (this.state.uploads.length < 10) {
       if (this.state.uploads.indexOf(this.refs.gameFileUpload.files[0].name) > -1) {
-        console.log('This game file has already been uploaded!');
+        Materialize.toast('This game file has already been uploaded!', 4000);
       } else {
         const metaContext = { title: 'test' };
 
@@ -115,14 +121,14 @@ export default class GameEditor extends Component {
 
         uploader.send(gameFile, (err, gameFile) => {
           if (err) {
-            console.log(uploader.xhr.response);
+            Materialize.toast(uploader.xhr.response, 4000);
           } else {
-            console.log('Success!', 'Game file uploaded to the cloud!');
+            Materialize.toast('Success! Game file uploaded to the cloud!', 4000, 'green');
             let newArray = this.state.uploads.slice();
             newArray.push(gameFile);
 
             this.setState({uploads: newArray});
-            console.log('Success!', 'Game files updated!');
+            Materialize.toast('Success! Game files updated!', 4000, 'green');
           }
         });
 
@@ -133,7 +139,7 @@ export default class GameEditor extends Component {
         });
       }
     } else {
-      console.log('No more than 10 game files!');
+      Materialize.toast('No more than 10 game files!', 4000);
     }
   }
   removeGameFile(gameFile) {
@@ -146,7 +152,47 @@ export default class GameEditor extends Component {
   }
   renderGameUploads() {
     return this.state.uploads.map((upload) => (
-      <li key={upload}>{upload} <a onClick={this.removeGameFile.bind(this, upload)}>x</a></li>
+      <div className="col s12" key={upload}>
+        <div className="card">
+          <div className="card-content">
+            <span className="card-title">{upload}</span>
+            <div className="card-close">
+              <a onClick={this.removeGameFile.bind(this, upload)}>
+                <i className="material-icons right">delete</i>
+              </a>
+            </div>
+          </div>
+          <div className="card-action">
+            <p>
+              <input
+                type="checkbox"
+                id="windowsPlatformSupport"
+                ref="windowsPlatformSupport"
+                value="windows"
+              />
+              <label htmlFor="windowsPlatformSupport">Windows</label>
+            </p>
+            <p>
+              <input
+                type="checkbox"
+                id="macOSPlatformSupport"
+                ref="macOSPlatformSupport"
+                value="macOS"
+              />
+              <label htmlFor="macOSPlatformSupport">Mac OS</label>
+            </p>
+            <p>
+              <input
+                type="checkbox"
+                id="linuxPlatformSupport"
+                ref="linuxPlatformSupport"
+                value="linux"
+              />
+              <label htmlFor="linuxPlatformSupport">Linux</label>
+            </p>
+          </div>
+        </div>
+      </div>
     ));
   }
   addTag(e) {
@@ -154,7 +200,7 @@ export default class GameEditor extends Component {
 
     if (this.state.tags.length < 10) {
       if (this.state.tags.indexOf(this.refs.tags.value) > -1) {
-        console.log('This tag already exists!');
+        Materialize.toast('This tag already exists!', 4000);
       } else {
         if (this.refs.tags.value.length > 0) {
           let newArray = this.state.tags.slice();
@@ -163,11 +209,11 @@ export default class GameEditor extends Component {
           this.setState({tags: newArray});
           this.refs.tags.value = '';
         } else {
-          console.log('Your tag is blank!');
+          Materialize.toast('Your tag is blank!', 4000);
         }
       }
     } else {
-      console.log('No more than 10 tags!');
+      Materialize.toast('No more than 10 tags!', 4000);
     }
   }
   removeTag(tag) {
@@ -180,20 +226,24 @@ export default class GameEditor extends Component {
   }
   renderTags() {
     return this.state.tags.map((tag) => (
-      <li key={tag}>{tag} <a onClick={this.removeTag.bind(this, tag)}>x</a></li>
+      <div key={tag} className="chip">
+        {tag} <i onClick={this.removeTag.bind(this, tag)} className="close material-icons">close</i>
+      </div>
     ));
   }
-  addBanner() {
+  addBanner(files) {
+    console.log('adding bannner');
+
     const metaContext = { title: 'test' };
 
-    const gameBanner = document.getElementById('bannerUpload').files[0];
+    const gameBanner = files[0];
     const uploader = new Slingshot.Upload('GameBanner', metaContext);
 
     uploader.send(gameBanner, (err, gameBanner) => {
       if (err) {
-        console.log(uploader.xhr.response);
+        Materialize.toast(uploader.xhr.response, 4000);
       } else {
-        console.log('Success!', 'Banner uploaded to the cloud!');
+        Materialize.toast('Success! Banner uploaded to the cloud!', 4000);
         this.setState({banner: gameBanner});
       }
     });
@@ -204,17 +254,17 @@ export default class GameEditor extends Component {
       }
     });
   }
-  addThumbnail() {
+  addThumbnail(files) {
     const metaContext = { title: 'test' };
 
-    const gameThumbnail = document.getElementById('thumbnailUpload').files[0];
+    const gameThumbnail = files[0];
     const uploader = new Slingshot.Upload('GameThumbnail', metaContext);
 
     uploader.send(gameThumbnail, (err, gameThumbnail) => {
       if (err) {
-        console.log(uploader.xhr.response);
+        Materialize.toast(uploader.xhr.response, 4000);
       } else {
-        console.log('Success!', 'Thumbnail uploaded to the cloud!');
+        Materialize.toast('Success! Thumbnail uploaded to the cloud!', 4000);
         this.setState({thumbnail: gameThumbnail});
       }
     });
@@ -225,10 +275,10 @@ export default class GameEditor extends Component {
       }
     });
   }
-  addScreenshot() {
+  addScreenshot(files) {
     if (this.state.screenshots.length < 10) {
       if (this.state.screenshots.indexOf(this.refs.screenshotsUpload.files[0].name) > -1) {
-        console.log('This screenshot with this name has already been uploaded!');
+        Materialize.toast('This screenshot with this name has already been uploaded!', 4000);
       } else {
         const metaContext = { title: 'test' };
 
@@ -237,14 +287,14 @@ export default class GameEditor extends Component {
 
         uploader.send(gameScreenshot, (err, gameScreenshot) => {
           if (err) {
-            console.log(uploader.xhr.response);
+            Materialize.toast(uploader.xhr.response, 4000);
           } else {
-            console.log('Success!', 'Screenshot uploaded to the cloud!');
+            Materialize.toast('Success! Screenshot uploaded to the cloud!', 4000);
             let newArray = this.state.screenshots.slice();
             newArray.push(gameScreenshot);
 
             this.setState({screenshots: newArray});
-            console.log('Success!', 'Screnshot uploaded!');
+            Materialize.toast('Success! Screnshot uploaded!', 4000);
           }
         });
 
@@ -255,7 +305,7 @@ export default class GameEditor extends Component {
         });
       }
     } else {
-      console.log('No more than 10 screenshots!');
+      Materialize.toast('No more than 10 screenshots!', 4000);
     }
   }
   removeScreenshot(screenshot) {
@@ -268,15 +318,20 @@ export default class GameEditor extends Component {
   }
   renderScreenshots() {
     return this.state.screenshots.map((screenshot) => (
-      <li key={screenshot}><img src={screenshot} width="200" /> <a onClick={this.removeScreenshot.bind(this)}>x</a></li>
+      <div key={screenshot}>
+        <img src={screenshot} className="responsive-img" />
+        <a onClick={this.removeScreenshot.bind(this)}>x</a>
+      </div>
     ));
   }
   handleSubmit() {
     const existingGame = this.props.game && this.props.game._id;
     const methodToCall = existingGame ? 'games.update' : 'games.insert';
 
-    const platforms = $('#platforms').val();
-    platforms.push('any');
+    // const platforms = $('#platforms').val();
+    // platforms.push('any');
+
+    const platforms = ['windows', 'any'];
 
     const game = {
       title: this.refs.title.value.trim(),
@@ -304,193 +359,291 @@ export default class GameEditor extends Component {
 
     Meteor.call(methodToCall, game, (err, gameId) => {
       if (err) {
-        console.log(err.reason);
+        Materialize.toast(err.reason, 4000);
       } else {
         const confirmation = existingGame ? 'Game updated!' : 'Game added!';
-        console.log('Success!', confirmation);
+        Materialize.toast('Success! ' + confirmation, 4000);
         this.props.history.push(`/game/${gameId}`)
       }
     })
   }
   render() {
     return (
-      <div>
-        <form id="form" ref="form" onSubmit={e => e.preventDefault()}>
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            ref="title"
-            defaultValue={this.props.game && this.props.game.title}
-          />
-          <br />
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            ref="description"
-            defaultValue={this.props.game && this.props.game.description}
-          />
-          <br />
-          <label htmlFor="uploadsFileType">File Types</label>
-          <select name="uploadsFileType" id="uploadsFileType" ref="uploadsFileType" defaultValue={this.props.game && this.props.game.uploadsFileType} className="required">
-            <option value="downloadable">Downloadable</option>
-            <option value="html">HTML</option>
-            <option value="flash">Flash</option>
-            <option value="unity">Unity ≤ 5.3</option>
-          </select>
-          <br />
-          <label htmlFor="releaseStatus">Release Status</label>
-          <select name="releaseStatus" id="releaseStatus" ref="releaseStatus" defaultValue={this.props.game && this.props.game.releaseStatus} className="required">
-            <option value="released">Released</option>
-            <option value="inDevelopment">In Development</option>
-            <option value="onHold">On Hold</option>
-            <option value="cancelled">Cancelled</option>
-            <option value="prototype">Prototype</option>
-          </select>
-          <br />
-          <label htmlFor="price">Pricing</label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            ref="price"
-            defaultValue={this.props.game && this.props.game.minPrice}
-          />
-          <br />
-          <ul>
-            {this.renderGameUploads()}
-          </ul>
-          <label htmlFor="gameFileUpload">Upload Game Files</label>
-          <input
-            type="file"
-            name="gameFileUpload"
-            id="gameFileUpload"
-            ref="gameFileUpload"
-            onChange={this.addGameFile.bind(this)}
-            multiple
-          />
-          {this.state.gameFileUploadProgress}
-          <br />
-          <br />
-          <label htmlFor="gameFileUpload">Platforms</label>
-          <br />
-          <select name="platforms" id="platforms" ref="platforms" defaultValue={this.props.game && this.props.game.platforms} multiple>
-            <option value="windows">Windows</option>
-            <option value="macOS">macOS</option>
-            <option value="linux">Linux</option>
-            <option value="web">Web</option>
-          </select>
-          <br />
-          <label htmlFor="body">Body</label>
-          <br />
-          <textarea
-            type="text"
-            name="body"
-            id="body"
-            ref="body"
-            defaultValue={this.props.game && this.props.game.body}
-          />
-          <br />
-          <label htmlFor="genre">Genre</label>
-          <br />
-          <select name="genre" id="genre" ref="genre" defaultValue={this.props.game && this.props.game.genres} multiple>
-            <option value="action">Action</option>
-            <option value="platformer">Platformer</option>
-            <option value="shooter">Shooter</option>
-            <option value="adventure">Adventure</option>
-            <option value="rolePlaying">Role Playing</option>
-            <option value="simulaion">Simulation</option>
-            <option value="strategy">Strategy</option>
-            <option value="puzzle">Puzzle</option>
-            <option value="sports">Sports</option>
-            <option value="other">Other</option>
-          </select>
-          <br />
-          <br />
-          <label htmlFor="tags">Tags</label>
-          <input
-            type="text"
-            name="tags"
-            id="tags"
-            ref="tags"
-          />
-          <button onClick={this.addTag.bind(this)}>Add tag</button>
-          {this.state.tags ? <ul>{this.renderTags()}</ul> : undefined}
-          <br />
-          <img src={this.state.banner} width="851" height="315" />
-          <br />
-          <label htmlFor="bannerUpload">Upload Banner</label>
-          <input
-            type="file"
-            name="bannerUpload"
-            id="bannerUpload"
-            ref="bannerUpload"
-            onChange={this.addBanner.bind(this)}
-          />
-          {this.state.bannerUploadProgress}
-          <br />
-          <br />
-          <img src={this.state.thumbnail} width="315" height="250" />
-          <br />
-          <label htmlFor="thumbnailUpload">Upload Thumbnail</label>
-          <input
-            type="file"
-            name="thumbnailUpload"
-            id="thumbnailUpload"
-            ref="thumbnailUpload"
-            onChange={this.addThumbnail.bind(this)}
-          />
-          {this.state.thumbnailUploadProgress}
-          <br />
-          <br />
-          <label htmlFor="gameplayVideo">Game Video or Trailer</label>
-          <input
-            type="text"
-            name="gameplayVideo"
-            id="gameplayVideo"
-            ref="gameplayVideo"
-            defaultValue={this.props.game && this.props.game.gameplayVideo}
-          />
-          <br />
-          <br />
-          <ul>
-            {this.renderScreenshots()}
-          </ul>
-          <label htmlFor="screenshotsUpload">Upload Screenshots</label>
-          <input
-            type="file"
-            name="screenshotsUpload"
-            id="screenshotsUpload"
-            ref="screenshotsUpload"
-            onChange={this.addScreenshot.bind(this)}
-            multiple
-          />
-          {this.state.screenshotUploadProgress}
-          <br />
-          <br />
-          <input
-            type="checkbox"
-            name="commentsEnabled"
-            ref="commentsEnabled"
-            id="commentsEnabled"
-            value="commentsEnabled"
-          /> Comments Enabled
-          <br />
-          <input
-            type="checkbox"
-            name="publicallyVisible"
-            ref="publicallyVisible"
-            id="publicallyVisible"
-            value="public"
-          /> Publically Visible
-          <br />
-          <button type="submit">
-            { this.props.game && this.props.game._id ? 'Save Changes' : 'Add Game'}
-          </button>
-        </form>
+      <div className="container">
+        <div className="row">
+          <div className="editor-form form-panel card-panel col s12">
+            <form id="form" ref="form" onSubmit={e => e.preventDefault()}>
+              <div>
+                <div className="col s12">
+                  <h4 className="center-align">Upload a New Game</h4>
+                </div>
+                <div className="form-section col s12 l8">
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        type="text"
+                        spellCheck="false"
+                        id="title"
+                        ref="title"
+                        placeholder="What is your game called?"
+                        defaultValue={this.props.game && this.props.game.title}
+                      />
+                      <label htmlFor="title">Title</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        type="text"
+                        id="description"
+                        ref="description"
+                        placeholder="A short description or tagline for your game"
+                        defaultValue={this.props.game && this.props.game.description}
+                      />
+                      <label htmlFor="description">Description</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <select
+                        id="releaseStatus"
+                        ref="releaseStatus"
+                        defaultValue={this.props.game && this.props.game.releaseStatus}
+                        className="required">
+                        <option value="released">Released</option>
+                        <option value="inDevelopment">In development</option>
+                        <option value="onHold">On hold</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="prototype">Prototype</option>
+                      </select>
+                      <label htmlFor="releaseStatus">Release Status</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        type="number"
+                        id="price"
+                        ref="price"
+                        placeholder="The minimum price consumers can pay for your game"
+                        defaultValue={this.props.game && this.props.game.minPrice}
+                      />
+                      <label htmlFor="price">Pricing</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <select id="uploadsFileType" ref="uploadsFileType" defaultValue={this.props.game && this.props.game.uploadsFileType} className="required">
+                        <option value="downloadable">Downloadable</option>
+                        <option value="html">HTML</option>
+                        <option value="flash">Flash</option>
+                        <option value="unity">Unity ≤ 5.3</option>
+                      </select>
+                      <label htmlFor="uploadsFileType">File Types</label>
+                    </div>
+                  </div>
+                  {this.state.uploads.length > 0 ? <div className="row">{this.renderGameUploads()}</div> : undefined}
+                  <div className="row">
+                    <div className="col s12">
+                      <label htmlFor="gameFileUpload">Downloadable Game Files</label>
+                      <div className="file-field input-field">
+                        <div className="btn">
+                          <span>File</span>
+                          <input
+                            type="file"
+                            id="gameFileUpload"
+                            ref="gameFileUpload"
+                            onChange={this.addGameFile.bind(this)}
+                            multiple
+                          />
+                        </div>
+                        <div className="file-path-wrapper">
+                          <input
+                            type="text"
+                            placeholder="Upload one or more downloadable game files"
+                            className="file-path"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    {this.state.gameFileUploadProgress ? (
+                    <div className="col s12">
+                      <div className="progress">
+                        <div className="determinate" style={{width: this.state.gameFileUploadProgress + '%'}}></div>
+                      </div>
+                    </div>
+                    ) : undefined}
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <textarea
+                        id="body"
+                        ref="body"
+                        placeholder="The bulk of your page's content"
+                        defaultValue={this.props.game && this.props.game.body}
+                        className="materialize-textarea"
+                      />
+                      <label htmlFor="body">Body</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <select
+                        id="genre"
+                        ref="genre"
+                        defaultValue={this.props.game && this.props.game.genre}
+                        className="required">
+                        <option value="action">Action</option>
+                        <option value="platformer">Platformer</option>
+                        <option value="shooter">Shooter</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="rolePlaying">Role Playing</option>
+                        <option value="simulaion">Simulation</option>
+                        <option value="strategy">Strategy</option>
+                        <option value="puzzle">Puzzle</option>
+                        <option value="sports">Sports</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <label htmlFor="genre">Genre</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12 tags-input">
+                      <input
+                        type="text"
+                        spellCheck="false"
+                        id="tags"
+                        ref="tags"
+                        placeholder="Small, bite-sized categories your game fits under"
+                      />
+                      <label htmlFor="tags">Tags</label>
+                      <a onClick={this.addTag.bind(this)} className="btn waves-effect waves-light">Add Tag</a>
+                    </div>
+                    <div className="col s12">
+                      {this.state.tags ? <div>{this.renderTags()}</div> : undefined}
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col s12">
+                      <label>Banner Image</label>
+                      <DropZone onDrop={this.addBanner.bind(this)} className="banner-drop-zone grey-text text-darken-3">
+                        {this.state.banner ? (
+                          <div>
+                            <img src={this.state.banner} className="responsive-img" />
+                            <a className="btn waves-effect waves-light">Replace</a>
+                          </div>
+                        ) : (
+                          <p>
+                            <i className="material-icons left">cloud_upload</i>
+                            Click or drag an image here
+                            <br /><small>Preferably 851 x 351 pixels</small>
+                          </p>
+                        )}
+                      </DropZone>
+                    </div>
+                    {this.state.bannerUploadProgress ? (
+                    <div className="col s12">
+                      <div className="progress">
+                        <div className="determinate" style={{width: this.state.bannerUploadProgress + '%'}}></div>
+                      </div>
+                    </div>
+                    ) : undefined}
+                  </div>
+                  <div className="row">
+                    <div className="col s12">
+                      <input type="checkbox" id="commentsEnabled" ref="commentsEnabled" value="commentsEnabled" defaultChecked />
+                      <label htmlFor="commentsEnabled">Comments Enabled</label>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-section col s12 l4">
+                  <div className="row">
+                    <div className="col s12">
+                      <label>Thumbnail Image</label>
+                      <DropZone onDrop={this.addThumbnail.bind(this)} className="thumbnail-drop-zone grey-text text-darken-3">
+                        {this.state.thumbnail ? (
+                          <div>
+                            <img src={this.state.thumbnail} className="responsive-img" />
+                            <a className="btn waves-effect waves-light">Replace</a>
+                          </div>
+                        ) : (
+                          <p>
+                            <i className="material-icons left">cloud_upload</i>
+                            Click or drag an image here
+                            <br /><small>Preferably 315 x 250 pixels</small>
+                          </p>
+                        )}
+                      </DropZone>
+                    </div>
+                    {this.state.thumbnailUploadProgress ? (
+                    <div className="col s12">
+                      <div className="progress">
+                        <div className="determinate" style={{width: this.state.thumbnailUploadProgress + '%'}}></div>
+                      </div>
+                    </div>
+                    ) : undefined}
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        type="text"
+                        spellCheck="false"
+                        placeholder="eg: https://youtube.com/watch?v=dQw4w9WgXcQ"
+                        id="gameplayVideo"
+                        ref="gameplayVideo"
+                        defaultValue={this.props.game && this.props.game.gameplayVideo}
+                      />
+                      <label htmlFor="gameplayVideo">Game Video or Trailer</label>
+                    </div>
+                  </div>
+                  {this.state.screenshots.length > 0 ? (
+                  <div className="row">
+                    <div className="col s12">
+                      {this.renderScreenshots()}
+                    </div>
+                  </div>
+                  ) : undefined}
+                  <div className="row">
+                    <div className="col s12">
+                      <label>Snapshots</label>
+                      <div className="file-field input-field">
+                        <div className="btn waves-effect waves-light">
+                          <span>Add Screenshot <i className="material-icons right">add_to_photos</i></span>
+                          <input
+                            type="file"
+                            id="screenshotsUpload"
+                            ref="screenshotsUpload"
+                            onChange={this.addScreenshot.bind(this)}
+                            multiple
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    {this.state.screenshotUploadProgress ? (
+                    <div className="col s12">
+                      <div className="progress">
+                        <div className="determinate" style={{width: this.state.screenshotUploadProgress + '%'}}></div>
+                      </div>
+                    </div>
+                    ) : undefined }
+                  </div>
+                </div>
+                <div className="col s12">
+                  <div className="divider"></div>
+                </div>
+                <div className="form-footer col s12">
+                  <div className="footer-content right">
+                    <input type="radio" name="visibility" id="privateCheckbox" ref="privateCheckbox" value="private" defaultChecked/>
+                    <label htmlFor="privateCheckbox">Private</label>
+                    <input type="radio" name="visibility" id="publicCheckbox" ref="publicCheckbox" value="public" />
+                    <label htmlFor="publicCheckbox">Public</label>
+                    <button type="submit" name="action" className="btn waves-effect waves-light">Save & View Page</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }

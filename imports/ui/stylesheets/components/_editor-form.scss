@@ -1,0 +1,123 @@
+.editor-form .form-section {
+  padding: 25px !important;
+}
+
+.editor-form .row .input-field input {
+  margin-bottom: 0 !important;
+}
+
+.editor-form .row {
+  margin-bottom: 40px !important;
+}
+
+
+.editor-form textarea {
+  margin: 0 !important;
+  min-height: 16rem !important;
+}
+
+
+.tags-input.input-field {
+  display: flex;
+}
+
+.tags-input input {
+  flex-grow: 100;
+  width: auto !important;
+}
+
+.tags-input a.btn {
+  margin-left: 10px;
+}
+
+
+.banner-drop-zone {
+  border: 1px dashed #616161;
+  cursor: pointer;
+  font-weight: 500;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 36.015276145%;
+  position: relative;
+  width: 100%;
+}
+
+.banner-drop-zone p {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.banner-drop-zone:hover a.btn {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.banner-drop-zone a.btn {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+
+.thumbnail-drop-zone {
+  border: 1px dashed #616161;
+  cursor: pointer;
+  font-weight: 500;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 79.365079365%;
+  position: relative;
+  width: 100%;
+}
+
+.thumbnail-drop-zone p {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.thumbnail-drop-zone:hover a.btn {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.thumbnail-drop-zone a.btn {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.form-footer {
+  padding-top: 25px !important;
+}
+
+.form-footer .footer-content {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-footer .footer-content label {
+  margin-right: 20px;
+}

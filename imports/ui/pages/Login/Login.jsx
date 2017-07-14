@@ -72,7 +72,7 @@ export default class Login extends Component {
               </div>
               <Link to="/recover-password" className="forgot-password right">Forgot Password?</Link>
             </div>
-            <button type="submit" name="action" className="btn waves-effect waves-light">Signup</button>
+            <button type="submit" name="action" className="btn waves-effect waves-light">Login</button>
           </form>
         </div>
       </div>

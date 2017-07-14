@@ -15,8 +15,8 @@ export default class VerifyEmail extends Component {
   }
   render() {
     return (
-      <div>
-        <p>Your verificaton link has expired or you've already verified your email.</p>
+      <div className="container">
+        <p className="center-align">Your verificaton link has expired or you've already verified your email.</p>
       </div>
     );
   }

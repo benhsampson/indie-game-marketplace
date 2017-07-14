@@ -20,7 +20,7 @@ import Profile from '../../pages/Profile/Profile';
 import GameView from '../../pages/GameView/GameView';
 import BrowseGames from '../../pages/BrowseGames/BrowseGames';
 import Dashboard from '../../pages/Dashboard/Dashboard';
-import NotFound from '../../pages/NotFound/NotFound';
+import PageNotFound from '../../pages/PageNotFound/PageNotFound';
 
 const App = props => (
   <Router>
@@ -40,7 +40,7 @@ const App = props => (
         <Route path="/profile/:username" component={Profile} />
         <AuthenticatedRoute path="/user/settings" component={UserSettings} {...props} />
         <AuthenticatedRoute path="/user/dashboard" component={Dashboard} {...props} />
-        <Route component={NotFound} />
+        <Route component={PageNotFound} />
       </Switch>
     </div>
   </Router>
