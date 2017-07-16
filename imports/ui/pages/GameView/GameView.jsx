@@ -36,8 +36,8 @@ export class GameView extends Component {
   }
   renderGame(game) {
     const profileRoute = username => `/profile/${username}`;
-    const videoId = this.getId(game.gameplayVideo);
-    const embedUrl = `https://youtube.com/embed/${videoId}`;
+    // const videoId = this.getId(game.gameplayVideo);
+    // const embedUrl = `https://youtube.com/embed/${videoId}`;
     return game.visibility || game.owner === Meteor.userId() ? (
       <div>
         {/* <img src={game.bannerImage} width="851" height="315" /> */}

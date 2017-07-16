@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 import $ from 'jquery';
 import 'jquery-validation';
+import shortid from 'shortid';
 
 export default class GameEditor extends Component {
   constructor(props) {
@@ -125,7 +126,11 @@ export default class GameEditor extends Component {
           } else {
             Materialize.toast('Success! Game file uploaded to the cloud!', 4000, 'green');
             let newArray = this.state.uploads.slice();
-            newArray.push(gameFile);
+            let upload = {
+              _id: shortid.generate(),
+              name: gameFile
+            };
+            newArray.push(upload);
 
             this.setState({uploads: newArray});
             Materialize.toast('Success! Game files updated!', 4000, 'green');
@@ -142,22 +147,39 @@ export default class GameEditor extends Component {
       Materialize.toast('No more than 10 game files!', 4000);
     }
   }
-  removeGameFile(gameFile) {
+  onUploadChangePlatform(uploadId) {
+    let platforms = [];
+
+    $(`#${uploadId}`).children('.platform').each(function() {
+      console.log($(this));
+      if ($(this).is(':checked')) {
+        platforms.push($(this).val());
+      } else if ($.inArray($(this).val(), platforms)) {
+        platforms.splice(platforms.indexOf($(this).val()), 1);
+      }
+    });
+
+    console.log(platforms);
+  }
+  removeGameFile(uploadId) {
     let newArray = this.state.uploads.slice();
-    let removedFile = this.state.uploads.indexOf(gameFile);
+    let removedFile = this.state.uploads.indexOf(uploadId);
 
     newArray.splice(removedFile, 1);
 
     this.setState({uploads: newArray});
   }
+  getUploadPlatformId(_id, platform) {
+    return `${platform}${_id}`;
+  }
   renderGameUploads() {
     return this.state.uploads.map((upload) => (
-      <div className="col s12" key={upload}>
-        <div className="card">
+      <div className="col s12" id={upload._id} key={upload._id}>
+        <div className="upload-card card">
           <div className="card-content">
-            <span className="card-title">{upload}</span>
+            <span className="card-title">{upload.name}</span>
             <div className="card-close">
-              <a onClick={this.removeGameFile.bind(this, upload)}>
+              <a onClick={this.removeGameFile.bind(this, upload._id)}>
                 <i className="material-icons right">delete</i>
               </a>
             </div>
@@ -166,29 +188,32 @@ export default class GameEditor extends Component {
             <p>
               <input
                 type="checkbox"
-                id="windowsPlatformSupport"
-                ref="windowsPlatformSupport"
+                id={this.getUploadPlatformId(upload._id, 'windows')}
                 value="windows"
+                className="platform"
+                onChange={this.onUploadChangePlatform.bind(this, upload._id)}
               />
-              <label htmlFor="windowsPlatformSupport">Windows</label>
+              <label htmlFor={this.getUploadPlatformId(upload._id, 'windows')}>Windows</label>
             </p>
             <p>
               <input
                 type="checkbox"
-                id="macOSPlatformSupport"
-                ref="macOSPlatformSupport"
+                id={this.getUploadPlatformId(upload._id, 'macOS')}
                 value="macOS"
+                className="platform"
+                onChange={this.onUploadChangePlatform.bind(this, upload._id)}
               />
-              <label htmlFor="macOSPlatformSupport">Mac OS</label>
+              <label htmlFor={this.getUploadPlatformId(upload._id, 'macOS')}>Mac OS</label>
             </p>
             <p>
               <input
                 type="checkbox"
-                id="linuxPlatformSupport"
-                ref="linuxPlatformSupport"
+                id={this.getUploadPlatformId(upload._id, 'linux')}
                 value="linux"
+                className="platform"
+                onChange={this.onUploadChangePlatform.bind(this, upload._id)}
               />
-              <label htmlFor="linuxPlatformSupport">Linux</label>
+              <label htmlFor={this.getUploadPlatformId(upload._id, 'linux')}>Linux</label>
             </p>
           </div>
         </div>
@@ -328,10 +353,17 @@ export default class GameEditor extends Component {
     const existingGame = this.props.game && this.props.game._id;
     const methodToCall = existingGame ? 'games.update' : 'games.insert';
 
-    // const platforms = $('#platforms').val();
-    // platforms.push('any');
+    const platforms = ['any'];
 
-    const platforms = ['windows', 'any'];
+    $('.platform').each(function() {
+      if ($(this).is(':checked')) {
+        if ($.inArray($(this).val(), platforms) > -1) {
+          console.log('Platform already listed');
+        } else {
+          platforms.push($(this).val());
+        }
+      }
+    });
 
     const game = {
       title: this.refs.title.value.trim(),
@@ -498,7 +530,7 @@ export default class GameEditor extends Component {
                         <option value="shooter">Shooter</option>
                         <option value="adventure">Adventure</option>
                         <option value="rolePlaying">Role Playing</option>
-                        <option value="simulaion">Simulation</option>
+                        <option value="simulation">Simulation</option>
                         <option value="strategy">Strategy</option>
                         <option value="puzzle">Puzzle</option>
                         <option value="sports">Sports</option>

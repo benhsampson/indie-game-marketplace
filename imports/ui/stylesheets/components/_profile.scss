@@ -1,0 +1,35 @@
+.profile-card ul.tabs li.tab a {
+  color: #26A69A !important;
+}
+
+.profile-card .tabs .indicator {
+  background-color: #26A69A !important;
+}
+
+.profile-cell {
+  align-items: center;
+  display: flex;
+  padding: 15px;
+  width: 100%;
+}
+
+.profile-cell img {
+  margin-right: 15px;
+}
+
+.profile-cell .card-content {
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.profile-cell .card-content .card-title {
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  margin-bottom: 5px !important;
+  padding: 0;
+}
+
+.profile-cell .card-content p {
+  font-size: 15px !important;
+}

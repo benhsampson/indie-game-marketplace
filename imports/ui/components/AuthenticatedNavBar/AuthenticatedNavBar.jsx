@@ -7,8 +7,17 @@ const handleProfileNav = username => `/profile/${username}`;
 
 export default class AuthenticatedNavBar extends Component {
   componentDidMount() {
-    $(document).ready(function () {
-      $(".dropdown-button").dropdown();
+    $(document).ready(function() {
+      $('.dropdown-button').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrainWidth: false,
+        hover: true,
+        gutter: 0,
+        belowOrigin: true,
+        alignment: 'right',
+        stopPropagation: false
+      });
     });
   }
   render() {
@@ -18,9 +27,9 @@ export default class AuthenticatedNavBar extends Component {
           <li><Link to={handleProfileNav(this.props.username)}>My Profile</Link></li>
           <li className="divider"></li>
           <li><Link to="/dashboard">My Dashboard</Link></li>
-          <li><Link to="user/settings">Settings</Link></li>
+          <li><Link to="/user/settings">Settings</Link></li>
           <li className="divider"></li>
-          <li><a onClick={() => Meteor.logout()}>logout</a></li>
+          <li><a onClick={() => Meteor.logout()}>Logout</a></li>
         </ul>
         <nav>
           <div className="nav-wrapper">
@@ -31,7 +40,7 @@ export default class AuthenticatedNavBar extends Component {
             </ul>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
-                <a data-activates="dropdown1" data-beloworigin="true" data-alignment="right" className="dropdown-button">
+                <a data-activates="dropdown1" className="dropdown-button">
                   {this.props.username}
                   <i className="material-icons right">arrow_drop_down</i>
                 </a>
