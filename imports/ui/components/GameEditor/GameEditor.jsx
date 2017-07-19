@@ -411,7 +411,7 @@ export default class GameEditor extends Component {
       } else {
         const confirmation = existingGame ? 'Game updated!' : 'Game added!';
         Materialize.toast('Success! ' + confirmation, 4000);
-        this.props.history.push(`/game/${gameId}`)
+        this.props.history.push(`/games/${gameId}`)
       }
     })
   }
@@ -423,7 +423,9 @@ export default class GameEditor extends Component {
             <form id="form" ref="form" onSubmit={e => e.preventDefault()}>
               <div>
                 <div className="col s12">
-                  <h4 className="center-align">Upload a New Game</h4>
+                  <h4 className="center-align">
+                    {this.props.game && this.props.game._id ? `Editing '${this.props.game.title}'` : 'Upload a New Game'}
+                  </h4>
                 </div>
                 <div className="form-section col s12 l8">
                   <div className="row">
@@ -567,7 +569,7 @@ export default class GameEditor extends Component {
                         />
                         <label htmlFor="tags">Tags</label>
                       </div>
-                      <button onClick={this.addTag.bind(this)} className="btn waves-effect waves-light">Add Tag</button>
+                      <a onClick={this.addTag.bind(this)} className="btn waves-effect waves-light">Add Tag</a>
                     </div>
                     <div className="render-tags col s12">
                       {this.state.tags ? <div>{this.renderTags()}</div> : undefined}
@@ -576,7 +578,7 @@ export default class GameEditor extends Component {
                   <div className="row">
                     <div className="col s12">
                       <label>Banner Image</label>
-                      <DropZone onDrop={this.addBanner.bind(this)} className="banner-drop-zone grey-text text-darken-3">
+                      <DropZone onDrop={this.addBanner.bind(this)} className="banner-drop-zone center-align grey-text text-darken-3">
                         {this.state.banner ? (
                           <div>
                             <img src={this.state.banner} className="responsive-img" />
@@ -613,7 +615,7 @@ export default class GameEditor extends Component {
                   <div className="row">
                     <div className="col s12">
                       <label>Thumbnail Image</label>
-                      <DropZone onDrop={this.addThumbnail.bind(this)} className="thumbnail-drop-zone grey-text text-darken-3">
+                      <DropZone onDrop={this.addThumbnail.bind(this)} className="thumbnail-drop-zone center-align grey-text text-darken-3">
                         {this.state.thumbnail ? (
                           <div>
                             <img src={this.state.thumbnail} className="responsive-img" />

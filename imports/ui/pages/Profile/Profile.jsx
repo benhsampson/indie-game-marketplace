@@ -8,11 +8,6 @@ import ProfilesList from '../../components/ProfilesList/ProfilesList';
 import Loading from '../../components/Loading/Loading';
 
 export class Profile extends Component {
-  componentDidMount() {
-    $(document).ready(function() {
-      $('ul.tabs').tabs();
-    });
-  }
   onFollowUser() {
     if (!this.props.currentUser) {
       console.log('Please login to follow someone.');
@@ -31,7 +26,7 @@ export class Profile extends Component {
         <div className="col s12 l5">
           <div className="profile-card card">
             <div className="card-image waves-effect waves-block waves-light">
-              <img src="/banner-image.png" className="activator" />
+              <img src={this.props.selectedUser.profile.profilePicture} className="activator" />
             </div>
             <div className="card-content">
               <span className="card-title activator grey-text text-darken-4">
@@ -62,22 +57,32 @@ export class Profile extends Component {
               <p>{this.props.selectedUser.username}</p>
             </div>
             <div className="card-tabs">
-              <ul className="tabs">
-                <li className="tab col s4"><a href="#1test" className="active">2 Games</a></li>
-                <li className="tab col s4"><a href="#2test">15 Followers</a></li>
-                <li className="tab col s4"><a href="#3test">6 Following</a></li>
-              </ul>
+              <div className="row">
+                <div className="col s12">
+                  <ul className="tabs">
+                    <li className="tab col s4">
+                      <a href="#1" className="active">2 Games</a>
+                    </li>
+                    <li className="tab col s4">
+                      <a href="#2">15 Followers</a>
+                    </li>
+                    <li className="tab col s4">
+                      <a href="#3">6 Following</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-          <div id="1test">
+          <div id="1">
             <h4>Games List</h4>
             <GamesList games={this.props.games} />
           </div>
-          <div id="2test">
+          <div id="2">
             <h4>Followers List</h4>
             <ProfilesList users={this.props.selectedUser.profile.followers} />
           </div>
-          <div id="3test">
+          <div id="3">
             <h4>Following List</h4>
             <ProfilesList users={this.props.selectedUser.profile.following} />
           </div>

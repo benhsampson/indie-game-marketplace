@@ -44,6 +44,7 @@ export class GameView extends Component {
     ));
   }
   renderGame(game) {
+    const editGameRoute = _id => `/edit/game/${_id}`;
     const profileRoute = username => `/profile/${username}`;
     // const videoId = this.getId(game.gameplayVideo);
     // const embedUrl = `https://youtube.com/embed/${videoId}`;
@@ -135,6 +136,11 @@ export class GameView extends Component {
                   {/* <p>Rating: <b>{game.rating}</b></p> */}
                   <p>Tags: {this.renderTags(game.tags)}</p>
                 </div>
+                <Link
+                  to={editGameRoute(game._id)}
+                  className="btn waves-effect waves-light">
+                  Edit
+                </Link>
               </div>
             </div>
           </div>

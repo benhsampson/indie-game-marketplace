@@ -6,6 +6,17 @@
   background-color: #26A69A !important;
 }
 
+.profile-card .card-content .card-title {
+  font-size: 25px;
+  font-weight: 500 !important;
+  line-height: 36px;
+  width: 100%;
+}
+
+.profile-card .card-content .card-title .btn {
+  font-weight: 400;
+}
+
 .profile-cell {
   align-items: center;
   display: flex;

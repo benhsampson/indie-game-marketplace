@@ -1,8 +1,8 @@
-import React from 'react';  
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const handleGameNav = _id => `/game/${_id}`;
+const handleGameNav = _id => `/games/${_id}`;
 
 const GameCell = ({ game }) => (
   <div className="col s12 m6 l3">
