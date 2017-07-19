@@ -16,18 +16,52 @@
   min-height: 16rem !important;
 }
 
+.editor-form .upload-card {
+  margin: 0 0 20px 0;
+}
 
-.tags-input.input-field {
+.editor-form .upload-card .card-content .card-title {
+  font-weight: 500;
+  line-height: 32px;
+  margin: 0 !important;
+}
+
+.editor-form .upload-card .card-content .card-title .card-close {
+  cursor: pointer;
+}
+
+.editor-form .upload-card .card-action {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px !important;
+  width: 100%;
+}
+
+.editor-form .upload-card .card-action p {
+  margin: 0 !important;
+}
+
+
+.tags-form {
   display: flex;
 }
 
-.tags-input input {
+.tags-form .tags-input {
+  display: flex;
+}
+
+.tags-form input {
   flex-grow: 100;
   width: auto !important;
 }
 
-.tags-input a.btn {
+.tags-form a.btn {
   margin-left: 10px;
+}
+
+.render-tags {
+  margin-top: 10px;
 }
 
 
@@ -112,6 +146,27 @@
   transition: visibility 0s, opacity 0.2s linear;
 }
 
+.screenshot {
+  position: relative;
+}
+
+.screenshot:hover a.btn {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.screenshot a.btn {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+}
 .form-footer {
   padding-top: 25px !important;
 }

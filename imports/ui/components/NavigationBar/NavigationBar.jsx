@@ -5,9 +5,9 @@ import PublicNavBar from '../PublicNavBar/PublicNavBar';
 import AuthenticatedNavBar from '../AuthenticatedNavBar/AuthenticatedNavBar';
 
 const NavigationBar = props => (
-  <div>
+  <header>
     {!props.authenticated ? <PublicNavBar /> : <AuthenticatedNavBar {...props} />}
-  </div>
+  </header>
 );
 
 NavigationBar.defaultProps = {

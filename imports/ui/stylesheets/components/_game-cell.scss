@@ -17,6 +17,12 @@
   font-size: 15px !important;
 }
 
+.game-cell .card-image {
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 79.365079365%;
+}
+
 .game-cell .price {
   bottom: 0;
   font-size: 15px;

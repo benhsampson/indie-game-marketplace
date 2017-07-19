@@ -24,9 +24,9 @@ export default class AuthenticatedNavBar extends Component {
     return (
       <div className="navbar-fixed">
         <ul id="dropdown1" className="dropdown-content">
-          <li><Link to={handleProfileNav(this.props.username)}>My Profile</Link></li>
+          <li><Link to={handleProfileNav(this.props.username)}>Profile</Link></li>
           <li className="divider"></li>
-          <li><Link to="/dashboard">My Dashboard</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>
           <li><Link to="/user/settings">Settings</Link></li>
           <li className="divider"></li>
           <li><a onClick={() => Meteor.logout()}>Logout</a></li>

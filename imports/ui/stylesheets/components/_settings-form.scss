@@ -1,0 +1,68 @@
+.settings-form {
+  margin: 20px 0 0 0 !important;
+  padding: 0 !important;
+  width: 100%;
+}
+
+.settings-form ul.tabs li.tab a {
+  color: #26A69A !important;
+}
+
+.settings-form .tabs .indicator {
+  background-color: #26A69A !important;
+}
+
+.settings-form .settings-form-content {
+  padding: 0 25px !important;
+}
+
+.settings-form .settings-form-content h5 {
+  font-weight: 500;
+  margin: 0 0 25px 0;
+}
+
+.profile-picture-drop-zone {
+  border: 1px dashed #616161;
+  cursor: pointer;
+  font-weight: 500;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 200px;
+}
+
+.profile-picture-drop-zone img {
+  height: 100%;
+  width: 100%;
+}
+
+.profile-picture-drop-zone p {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.profile-picture-drop-zone:hover a.btn {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.profile-picture-drop-zone a.btn {
+  left: 50%;
+  margin: 0;
+  margin-right: -50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.settings-form .btn {
+  margin: 20px 0 0 0;
+}

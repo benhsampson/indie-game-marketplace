@@ -53,14 +53,45 @@ export default class SettingsPassword extends Component {
   render() {
     return (
       <div>
+        <h5>Password</h5>
         <form ref="form" onSubmit={e => e.preventDefault()}>
-          <label htmlFor="currentPassword">Current Password</label>
-          <input type="password" name="currentPassword" id="currentPassword" ref="currentPassword" />
-          <br />
-          <label htmlFor="newPassword">New Password</label>
-          <input type="password" name="newPassword" id="newPassword" ref="newPassword" />
-          <br />
-          <button type="submit">Save Profile</button>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                type="password"
+                id="currentPassword"
+                ref="currentPassword"
+              />
+              <label htmlFor="currentPassword">Current Password</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                type="password"
+                id="newPassword"
+                ref="newPassword"
+              />
+              <label htmlFor="newPassword">New Password</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                type="password"
+                id="repeatNewPassword"
+                ref="repeatNewPassword"
+              />
+              <label htmlFor="repeatNewPassword">Repeat New Password</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s12">
+              <button type="submit" name="action" className="btn waves-effect waves-light right">
+                Submit
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     );

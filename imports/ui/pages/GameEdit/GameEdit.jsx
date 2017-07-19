@@ -9,11 +9,11 @@ import GameNotFound from '../../components/GameNotFound/GameNotFound';
 
 export class GameEdit extends Component {
   render() {
-    return this.props.game ? (
+    return this.props.loading ? <Loading /> : (
       <div>
         <GameEditor game={this.props.game} history={this.props.history} />
       </div>
-    ) : <GameNotFound />;
+    );
   }
 }
 
@@ -25,6 +25,7 @@ GameEdit.propTypes = {
 export default createContainer(({ match }) => {
   const gameId = match.params._id;
   const subscription = Meteor.subscribe('games.updateView', gameId);
+  console.log(Games.findOne(gameId));
   return {
     loading: !subscription.ready(),
     game: Games.findOne(gameId)

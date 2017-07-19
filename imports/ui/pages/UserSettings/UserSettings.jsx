@@ -5,25 +5,43 @@ import SettingsProfile from '../../components/SettingsProfile/SettingsProfile';
 import SettingsPassword from '../../components/SettingsPassword/SettingsPassword';
 
 export class UserSettings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showPublicSettings: true
-    };
-  }
-  changeDisplayedSettings() {
-    this.setState((prevState, props) => {
-      return {showPublicSettings: !prevState.showPublicSettings};
-    });
-  }
   render() {
     return (
-      <div>
-        <button onClick={this.changeDisplayedSettings.bind(this)}>Profile</button>
-        <button onClick={this.changeDisplayedSettings.bind(this)}>Password</button>
-        { this.state.showPublicSettings === true ?
-          <SettingsProfile loading={this.props.loading} user={this.props.user} history={this.props.history} /> :
-          <SettingsPassword loading={this.props.loading} user={this.props.user} history={this.props.history} />}
+      <div className="container">
+        <div className="row">
+          <div className="col s12 l8 offset-l2">
+            <div className="settings-form card-panel">
+              <div className="row">
+                <div className="col s12">
+                  <ul className="tabs">
+                    <li className="tab col s3">
+                      <a href="#1">Profile</a>
+                    </li>
+                    <li className="tab col s3">
+                      <a href="#2">Password</a>
+                    </li>
+                    <li className="tab col s3">
+                      <a href="#3">Payment</a>
+                    </li>
+                    <li className="tab col s3">
+                      <a href="#4">Seller</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s12">
+                  <div id="1" className="settings-form-content">
+                    <SettingsProfile loading={this.props.loading} user={this.props.user} history={this.props.history} />
+                  </div>
+                  <div id="2" className="settings-form-content">
+                    <SettingsPassword loading={this.props.loading} user={this.props.user} history={this.props.history} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

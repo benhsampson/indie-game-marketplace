@@ -21,27 +21,31 @@ import GameView from '../../pages/GameView/GameView';
 import BrowseGames from '../../pages/BrowseGames/BrowseGames';
 import Dashboard from '../../pages/Dashboard/Dashboard';
 import PageNotFound from '../../pages/PageNotFound/PageNotFound';
+import Footer from '../../components/Footer/Footer';
 
 const App = props => (
   <Router>
     <div>
       <NavigationBar {...props} />
-      <Switch>
-        <Route exact name="index" path="/" component={FeaturedGames} />
-        <Route exact path="/games" component={BrowseGames} />
-        <Route path="/game/:_id" component={GameView} />
-        <AuthenticatedRoute path="/games/new" component={GameUpload} {...props} />
-        <AuthenticatedRoute path="/game/:_id/edit" component={GameEdit} {...props} />
-        <PublicRoute path="/signup" component={Signup} {...props} />
-        <Route path="/verify-email/:token" component={VerifyEmail} />
-        <PublicRoute path="/login" component={Login} {...props} />
-        <Route path="/recover-password" component={RecoverPassword} />
-        <Route path="/reset-password/:token" component={ResetPassword} />
-        <Route path="/profile/:username" component={Profile} />
-        <AuthenticatedRoute path="/user/settings" component={UserSettings} {...props} />
-        <AuthenticatedRoute path="/user/dashboard" component={Dashboard} {...props} />
-        <Route component={PageNotFound} />
-      </Switch>
+      <main>
+        <Switch>
+          <Route exact name="index" path="/" component={FeaturedGames} />
+          <Route exact path="/games" component={BrowseGames} />
+          <Route exact path="/games/:_id" component={GameView} />
+          <AuthenticatedRoute exact path="/game/new" component={GameUpload} {...props} />
+          <AuthenticatedRoute exact path="/edit/game/:_id" component={GameEdit} {...props} />
+          <PublicRoute path="/signup" component={Signup} {...props} />
+          <Route path="/verify-email/:token" component={VerifyEmail} />
+          <PublicRoute path="/login" component={Login} {...props} />
+          <Route path="/recover-password" component={RecoverPassword} />
+          <Route path="/reset-password/:token" component={ResetPassword} />
+          <Route path="/profile/:username" component={Profile} />
+          <AuthenticatedRoute path="/user/settings" component={UserSettings} {...props} />
+          <AuthenticatedRoute path="/user/dashboard" component={Dashboard} {...props} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </main>
+      <Footer />
     </div>
   </Router>
 );

@@ -33,19 +33,29 @@ export default class GameEditor extends Component {
 
     if (this.props.game && this.props.game._id) {
       this.props.game.commentsEnabled ? $('#commentsEnabled').prop('checked', true) : $('#commentsEnabled').prop('checked', false);
-      this.props.game.visibility ? $('#publicallyVisible').prop('checked', true) : $('#publicallyVisible').prop('checked', false);
+      this.props.game.visibility ? $('#publicCheckbox').prop('checked', true) : $('#publicCheckbox').prop('checked', false);
     } else {
       $('#commentsEnabled').prop('checked', true);
-      $('#publicallyVisible').prop('checked', false);
+      $('#publicCheckbox').prop('checked', false);
     }
 
     $('#form').on('keyup keypress', function(e) {
       var keyCode = e.keyCode || e.which;
       if (keyCode === 13) {
         e.preventDefault();
+        console.log('clicked enter');
         return false;
       }
     });
+
+    // $('textarea').on('keyup keypress', function(e) {
+    //   var keyCode = e.keyCode || e.which;
+    //   if (keyCode === 13) {
+    //     e.preventDefault();
+    //     // var s = $(this).val();
+    //     // return $(this).val(s+'\n');
+    //   }
+    // });​
 
     $(this.refs.form).validate({
       rules: {
@@ -126,9 +136,15 @@ export default class GameEditor extends Component {
           } else {
             Materialize.toast('Success! Game file uploaded to the cloud!', 4000, 'green');
             let newArray = this.state.uploads.slice();
+
             let upload = {
               _id: shortid.generate(),
-              name: gameFile
+              number: this.state.uploads.length,
+              name: this.refs.gameFileUpload.files[0].name,
+              filePath: gameFile,
+              platforms: {
+
+              }
             };
             newArray.push(upload);
 
@@ -147,11 +163,10 @@ export default class GameEditor extends Component {
       Materialize.toast('No more than 10 game files!', 4000);
     }
   }
-  onUploadChangePlatform(uploadId) {
+  onUploadChangePlatform(uploadId, uploadNumber) {
     let platforms = [];
 
-    $(`#${uploadId}`).children('.platform').each(function() {
-      console.log($(this));
+    $(`#${uploadId}`).find('.platform').each(function() {
       if ($(this).is(':checked')) {
         platforms.push($(this).val());
       } else if ($.inArray($(this).val(), platforms)) {
@@ -159,7 +174,7 @@ export default class GameEditor extends Component {
       }
     });
 
-    console.log(platforms);
+    this.state.uploads[uploadNumber].platforms = platforms;
   }
   removeGameFile(uploadId) {
     let newArray = this.state.uploads.slice();
@@ -177,12 +192,12 @@ export default class GameEditor extends Component {
       <div className="col s12" id={upload._id} key={upload._id}>
         <div className="upload-card card">
           <div className="card-content">
-            <span className="card-title">{upload.name}</span>
-            <div className="card-close">
-              <a onClick={this.removeGameFile.bind(this, upload._id)}>
+            <span className="card-title grey-text text-darken-3">
+              {upload.name}
+              <a onClick={this.removeGameFile.bind(this, upload._id)} className="card-close right grey-text text-darken-2">
                 <i className="material-icons right">delete</i>
               </a>
-            </div>
+            </span>
           </div>
           <div className="card-action">
             <p>
@@ -191,7 +206,7 @@ export default class GameEditor extends Component {
                 id={this.getUploadPlatformId(upload._id, 'windows')}
                 value="windows"
                 className="platform"
-                onChange={this.onUploadChangePlatform.bind(this, upload._id)}
+                onChange={this.onUploadChangePlatform.bind(this, upload._id, upload.number)}
               />
               <label htmlFor={this.getUploadPlatformId(upload._id, 'windows')}>Windows</label>
             </p>
@@ -201,7 +216,7 @@ export default class GameEditor extends Component {
                 id={this.getUploadPlatformId(upload._id, 'macOS')}
                 value="macOS"
                 className="platform"
-                onChange={this.onUploadChangePlatform.bind(this, upload._id)}
+                onChange={this.onUploadChangePlatform.bind(this, upload._id, upload.number)}
               />
               <label htmlFor={this.getUploadPlatformId(upload._id, 'macOS')}>Mac OS</label>
             </p>
@@ -211,7 +226,7 @@ export default class GameEditor extends Component {
                 id={this.getUploadPlatformId(upload._id, 'linux')}
                 value="linux"
                 className="platform"
-                onChange={this.onUploadChangePlatform.bind(this, upload._id)}
+                onChange={this.onUploadChangePlatform.bind(this, upload._id, upload.number)}
               />
               <label htmlFor={this.getUploadPlatformId(upload._id, 'linux')}>Linux</label>
             </p>
@@ -220,9 +235,7 @@ export default class GameEditor extends Component {
       </div>
     ));
   }
-  addTag(e) {
-    e.preventDefault();
-
+  addTag() {
     if (this.state.tags.length < 10) {
       if (this.state.tags.indexOf(this.refs.tags.value) > -1) {
         Materialize.toast('This tag already exists!', 4000);
@@ -343,9 +356,12 @@ export default class GameEditor extends Component {
   }
   renderScreenshots() {
     return this.state.screenshots.map((screenshot) => (
-      <div key={screenshot}>
+      <div key={screenshot} className="screenshot">
         <img src={screenshot} className="responsive-img" />
-        <a onClick={this.removeScreenshot.bind(this)}>x</a>
+        <a onClick={this.removeScreenshot.bind(this)} className="btn waves-effect waves-light">
+          Remove
+          <i className="material-icons left">delete</i>
+        </a>
       </div>
     ));
   }
@@ -382,7 +398,7 @@ export default class GameEditor extends Component {
       gameplayVideo: this.refs.gameplayVideo.value,
       screenshots: this.state.screenshots,
       commentsEnabled: $('#commentsEnabled').is(':checked'),
-      visibility: $('#publicallyVisible').is(':checked')
+      visibility: $('#publicCheckbox').is(':checked')
     };
 
     if (existingGame) {
@@ -540,18 +556,20 @@ export default class GameEditor extends Component {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="input-field col s12 tags-input">
-                      <input
-                        type="text"
-                        spellCheck="false"
-                        id="tags"
-                        ref="tags"
-                        placeholder="Small, bite-sized categories your game fits under"
-                      />
-                      <label htmlFor="tags">Tags</label>
-                      <a onClick={this.addTag.bind(this)} className="btn waves-effect waves-light">Add Tag</a>
+                    <div id="tags-form" ref="tags-form" className="tags-form">
+                      <div className="tags-input input-field col s12">
+                        <input
+                          type="text"
+                          spellCheck="false"
+                          id="tags"
+                          ref="tags"
+                          placeholder="Small, bite-sized categories your game fits under"
+                        />
+                        <label htmlFor="tags">Tags</label>
+                      </div>
+                      <button onClick={this.addTag.bind(this)} className="btn waves-effect waves-light">Add Tag</button>
                     </div>
-                    <div className="col s12">
+                    <div className="render-tags col s12">
                       {this.state.tags ? <div>{this.renderTags()}</div> : undefined}
                     </div>
                   </div>
@@ -562,7 +580,10 @@ export default class GameEditor extends Component {
                         {this.state.banner ? (
                           <div>
                             <img src={this.state.banner} className="responsive-img" />
-                            <a className="btn waves-effect waves-light">Replace</a>
+                            <a className="btn waves-effect waves-light">
+                              <i className="material-icons right">edit</i>
+                              Replace
+                            </a>
                           </div>
                         ) : (
                           <p>
@@ -596,7 +617,10 @@ export default class GameEditor extends Component {
                         {this.state.thumbnail ? (
                           <div>
                             <img src={this.state.thumbnail} className="responsive-img" />
-                            <a className="btn waves-effect waves-light">Replace</a>
+                            <a className="btn waves-effect waves-light">
+                              Replace
+                              <i className="material-icons left">edit</i>
+                            </a>
                           </div>
                         ) : (
                           <p>

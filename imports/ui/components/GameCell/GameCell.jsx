@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react';  
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -7,12 +7,12 @@ const handleGameNav = _id => `/game/${_id}`;
 const GameCell = ({ game }) => (
   <div className="col s12 m6 l3">
     <div className="game-cell card z-depth-2 hoverable">
+      <Link to={handleGameNav(game._id)}>
       <div className="card-image">
-        <Link to={handleGameNav(game._id)}>
-          <span className="price teal white-text">{game.minPrice}</span>
-          <img src={game.thumbnail} />
-        </Link>
+          <span className="price teal white-text">${game.minPrice}</span>
+          <img src={game.thumbnailImage} />
       </div>
+      </Link>
       <div className="card-content">
         <Link to={handleGameNav(game._id)}>
           <span className="card-title truncate grey-text text-darken-4">{game.title}</span>

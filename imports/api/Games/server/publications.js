@@ -17,7 +17,7 @@ Meteor.publish('games.view', function gameView(gameId) {
 
 Meteor.publish('games.updateView', function gameUpdateView(gameId) {
   check(gameId, String);
-  return Games.find({ _id: gameId, owner: this.userId });
+  return Games.find({ _id: gameId });
 });
 
 Meteor.publish('games.owned', function gameOwned(owner) {

@@ -9,6 +9,13 @@ import Loading from '../../components/Loading/Loading';
 import GameNotFound from '../../components/GameNotFound/GameNotFound';
 
 export class GameView extends Component {
+  componentDidMount() {
+    $(document).ready(function() {
+      $('.modal').modal();
+      $('#modal-download').modal('open');
+      $('.parallax').parallax();
+    });
+  }
   getId(url) {
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
@@ -21,17 +28,19 @@ export class GameView extends Component {
   }
   renderScreenshots(screenshots) {
     return screenshots.map((screenshot) => (
-      <li key={screenshot}><img src={screenshot} width="200" /></li>
+      <div key={screenshot}>
+        <img src={screenshot} className="responsive-img" />
+      </div>
     ));
   }
   renderPlatforms(platforms) {
     return platforms.map((platform) => (
-      <li key={platform}>{platform}</li>
+      <b key={platform}>{platform}, </b>
     ));
   }
   renderTags(tags) {
     return tags.map((tag) => (
-      <li key={tag}>{tag}</li>
+      <b key={tag}>{tag}, </b>
     ));
   }
   renderGame(game) {
@@ -39,38 +48,102 @@ export class GameView extends Component {
     // const videoId = this.getId(game.gameplayVideo);
     // const embedUrl = `https://youtube.com/embed/${videoId}`;
     return game.visibility || game.owner === Meteor.userId() ? (
-      <div>
-        {/* <img src={game.bannerImage} width="851" height="315" /> */}
-        <h3>{game.title}</h3>
-        {/* <PaymentTest
-          price={game.minPrice}
-          image={game.thumbnailImage}
-          title={game.title}
-          description={game.description}
-        />
-        <br />
-        <br />
-        <iframe src={embedUrl} frameBorder="0" allowFullScreen />
-        <p>{game.body}</p>
-        <Link to={profileRoute(game.owner)}>{game.owner}</Link>
-        <ul>
-          {this.renderScreenshots(game.screenshots)}
-        </ul>
-        <ul>
-          {this.renderPlatforms(game.platforms)}
-        </ul>
-        <ul>
-          {this.renderTags(game.tags)}
-        </ul>
-        <ul>
-          <li>{game.releaseStatus}</li>
-        </ul>
-        {game.owner === Meteor.userId() ?
-          <button onClick={() => this.props.history.push(`/games/${this.props.match.params._id}/edit`)}>
-            Edit
-          </button> : undefined
-        } */}
-        {game.commentsEnabled ? <p>comments</p> : undefined}
+      <div className="game-view">
+        <div id="modal-download" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <h5>Buy '{game.title}'</h5>
+            <p>Download {game.title} by purchasing it for ${game.price}.00 or more
+              <br />
+              <small>
+                Support the developer by paying above the minimum price.
+                <Link to="/docs" className="learn-more">Learn More</Link>
+              </small>
+            </p>
+            <div className="input-field col s12 l6">
+              <input
+                type="number"
+                id="price-input"
+                ref="price-input"
+                defaultValue={game.minPrice}
+              />
+              <label htmlFor="price-input">Name Your price</label>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <a className="modal-action btn waves-effect waves-light blue left">
+              Pay with Paypal
+            </a>
+            <a className="modal-action btn waves-effect waves-light left">
+              Pay with Card
+              <i className="material-icons right">credit_card</i>
+            </a>
+            <a className="modal-action btn-flat modal-close waves-effect waves-light right">Cancel</a>
+          </div>
+        </div>
+        <div className="parallax-container">
+          <div className="parallax">
+            <img src={game.bannerImage} />
+          </div>
+        </div>
+        <div className="container row">
+          <div className="game-info col s12 card-panel">
+            <div className="col s12 l8">
+              <div className="left-section left">
+                <h3>{game.title}</h3>
+                <div className="download-widget">
+                  <a href="#modal-download" className="modal-trigger btn waves-effect waves-light left">
+                    Download
+                    <i className="material-icons right">file_download</i>
+                  </a>
+                  <p className="left">${game.minPrice}.00 OR MORE</p>
+                </div>
+                {/* <div className="video-container">
+                  <iframe src={embedUrl} frameBorder="0" allowFullScreen />
+                </div> */}
+                <div className="game-body left">
+                  <p>{game.body}</p>
+                </div>
+              </div>
+            </div>
+            <div className="col s12 l4">
+              <div className="right-section right">
+                <div className="developer-widget">
+                  <Link to={profileRoute(game.owner)}>
+                    <img
+                      src={Meteor.users.findOne({ username: game.owner }).profile.profilePicture}
+                      className="circle responsive-img left"
+                    />
+                  </Link>
+                  <p className="left">
+                    <Link to={profileRoute(game.owner)}>
+                      <b className="left">ben</b>
+                    </Link>
+                    <a className="btn btn-small waves-effect waves-light">
+                      Follow
+                      <i className="material-icons left">person_add</i>
+                    </a>
+                  </p>
+                </div>
+                <div className="snapshots-container">
+                  {game.screenshots.length > 0 ? this.renderScreenshots(game.screenshots) : undefined}
+                </div>
+                <div className="additional-info-widget">
+                  <p>Plaforms: {this.renderPlatforms(game.platforms)}</p>
+                  <p>Release Status: <b>{game.releaseStatus}</b></p>
+                  <p>Genre: <b>{game.genre}</b></p>
+                  {/* <p>Published: <b>{game.releaseDate}</b></p> */}
+                  {/* <p>Rating: <b>{game.rating}</b></p> */}
+                  <p>Tags: {this.renderTags(game.tags)}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="container row">
+            <div className="col s12 l8">
+              {game.commentsEnabled ? <p>COMMENTS</p> : undefined}
+            </div>
+          </div>
+        </div>
       </div>
     ) : <GameNotFound />;
   }
@@ -85,12 +158,12 @@ export class GameView extends Component {
 
 GameView.propTypes = {
   loading: PropTypes.bool.isRequired,
-  game: PropTypes.object,
+  // game: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
 };
 
-export default createContainer(({match}) => {
+export default createContainer(({ match }) => {
   const gameId = match.params._id;
   const subscription = Meteor.subscribe('games.view', gameId);
 
