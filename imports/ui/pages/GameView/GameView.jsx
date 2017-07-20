@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import Games from '../../../api/Games/Games';
+import Comments from '../../../api/Comments/Comments';
 import PaymentTest from '../../components/PaymentTest/PaymentTest';
+import CommentsList from '../../components/CommentsList/CommentsList';
 import Loading from '../../components/Loading/Loading';
 import GameNotFound from '../../components/GameNotFound/GameNotFound';
 
@@ -46,8 +48,8 @@ export class GameView extends Component {
   renderGame(game) {
     const editGameRoute = _id => `/edit/game/${_id}`;
     const profileRoute = username => `/profile/${username}`;
-    // const videoId = this.getId(game.gameplayVideo);
-    // const embedUrl = `https://youtube.com/embed/${videoId}`;
+    const videoId = this.getId(game.gameplayVideo);
+    const embedUrl = `https://youtube.com/embed/${videoId}`;
     return game.visibility || game.owner === Meteor.userId() ? (
       <div className="game-view">
         <div id="modal-download" className="modal modal-fixed-footer">
@@ -98,9 +100,9 @@ export class GameView extends Component {
                   </a>
                   <p className="left">${game.minPrice}.00 OR MORE</p>
                 </div>
-                {/* <div className="video-container">
-                  <iframe src={embedUrl} frameBorder="0" allowFullScreen />
-                </div> */}
+                <div className="video-container">
+                  <iframe src={embedUrl} width="853" height="480" frameBorder="0" allowFullScreen />
+                </div>
                 <div className="game-body left">
                   <p>{game.body}</p>
                 </div>
@@ -113,6 +115,8 @@ export class GameView extends Component {
                     <img
                       src={Meteor.users.findOne({ username: game.owner }).profile.profilePicture}
                       className="circle responsive-img left"
+                      height="60"
+                      width="60"
                     />
                   </Link>
                   <p className="left">
@@ -136,17 +140,18 @@ export class GameView extends Component {
                   {/* <p>Rating: <b>{game.rating}</b></p> */}
                   <p>Tags: {this.renderTags(game.tags)}</p>
                 </div>
-                <Link
+                {/* <Link
                   to={editGameRoute(game._id)}
                   className="btn waves-effect waves-light">
                   Edit
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
           <div className="container row">
             <div className="col s12 l8">
-              {game.commentsEnabled ? <p>COMMENTS</p> : undefined}
+              {this.props.commentsLoading ? <p>Comments: {this.props.comments.length}</p> : <p>Loading</p> }
+              {game.commentsEnabled ? <CommentsList comments={this.props.comments}/> : undefined}
             </div>
           </div>
         </div>
@@ -172,9 +177,12 @@ GameView.propTypes = {
 export default createContainer(({ match }) => {
   const gameId = match.params._id;
   const subscription = Meteor.subscribe('games.view', gameId);
+  const commentsSubscription = Meteor.subscribe('comments', gameId);
 
   return {
     loading: !subscription.ready(),
-    game: Games.findOne(gameId)
+    commentsLoading: !commentsSubscription.ready(),
+    game: Games.findOne(gameId),
+    comments: Comments.find()
   };
 }, GameView);

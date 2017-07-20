@@ -58,11 +58,7 @@
 }
 
 .game-view .left-section .video-container {
-  height: 0;
   margin-top: 20px;
-  padding-bottom: 56.25%;
-  padding: 25px;
-  position: relative;
 }
 
 .game-view .left-section .game-body {
@@ -88,6 +84,7 @@
 }
 
 .game-view .right-section .developer-widget img {
+  height: 60px;
   margin-right: 10px;
   width: 60px;
 }

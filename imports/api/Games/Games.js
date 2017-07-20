@@ -22,7 +22,7 @@ Games.schema = new SimpleSchema({
   },
   owner: {
     type: String,
-    label: 'The ID of the user the game belongs to'
+    label: 'The username of the user the game belongs to'
   },
   createdAt: {
     type: Date,
