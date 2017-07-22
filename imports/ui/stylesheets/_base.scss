@@ -1,9 +1,26 @@
+html, body, #app, #app > [data-reactroot] {
+  height: 100%;
+}
+
 body {
-  background-color: #EEF0F3;
+  background-color: #EEEEEE;
+}
+
+#app > [data-reactroot] {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 .btn-small {
   height: 24px !important;
   line-height: 24px !important;
   padding: 0 0.5rem !important;
+}
+
+.learn-more {
+  margin-left: 10px;
 }

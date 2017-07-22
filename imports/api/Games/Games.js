@@ -51,16 +51,28 @@ Games.schema = new SimpleSchema({
     type: String,
     label: 'The release status of the game'
   },
-  minPrice: {
-    type: Number,
-    label: 'The minimum price of the game'
+  upload: {
+    type: String,
+    label: 'Testing for uploads'
   },
+  // uploads: {
+  //   type: Object,
+  //   label: 'The downloadable game file'
+  // },
+  // minPrice: {
+  //   type: Number,
+  //   label: 'The minimum price of the game'
+  // },
   uploads: {
     type: Array,
     label: 'The game files',
   },
+  // upload: {
+  //   type: Array,
+  //   label: 'A game file'
+  // },
   'uploads.$': {
-    type: String
+    type: Object
   },
   platforms: {
     type: Array,

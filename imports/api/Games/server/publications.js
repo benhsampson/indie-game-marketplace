@@ -3,7 +3,7 @@ import { check } from 'meteor/check';
 import Games from '../Games';
 
 Meteor.publish('games.featured', function gamesFeatured() {
-  return Games.find({ featured: true });
+  return Games.find({ featured: true }, {fields: {'uploads': 0}});
 });
 
 Meteor.publish('games', function games() {

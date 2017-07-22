@@ -1,4 +1,5 @@
 import React, { Component} from 'react';
+import { Meteor } from 'meteor/meteor';
 import $ from 'jquery';
 import 'jquery-validation';
 
@@ -29,22 +30,44 @@ export default class CommentsBox extends Component {
     });
   }
   handleSubmit() {
-    let comment = this.refs.commentInput.value;
+    let commentInput = this.refs.commentInput.value;
 
-    Meteor.call()
+    const comment = {
+      gameId: this.props.gameId,
+      comment: commentInput
+    };
+
+    console.log('submitting comment');
+
+    Meteor.call('comments.insert', comment, (err) => {
+      if (err) {
+        Materialize.toast(err.reason, 4000);
+      } else {
+        this.refs.commentInput.value = '';        
+      }
+    });
   }
   render() {
     return (
       <div>
-        <form onSubmit={e => e.preventDefault()}>
-          <label htmlFor="commentInput">Comment</label>
-          <input
-            type="text"
-            id="commentInput"
-            ref="commentInput"
-          />
-          <button type="submit">Submit</button>
-        </form>
+        {Meteor.userId() ? (<div className="comment-box card-panel col s12 l8">
+          <form id="form" ref="form" onSubmit={e => e.preventDefault()}>
+            <div className="input-field col s12">
+              <label htmlFor="commentInput">Comment</label>
+              <input
+                type="text"
+                id="commentInput"
+                ref="commentInput"
+              />
+            </div>
+            <button
+              type="submit"
+              name="action"
+              className="btn waves-effect waves-light">
+              <i className="material-icons left">send</i> Submit
+            </button>
+          </form>
+        </div>) : <p>Please login to post a comment</p>}
       </div>
     );
   }

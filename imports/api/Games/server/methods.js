@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import Games from '../Games';
-import rateLimit from '../../../modules/rate-limit';
 import shortid from 'shortid';
+import moment from 'moment';
+import rateLimit from '../../../modules/rate-limit';
 
 Meteor.methods({
   'games.insert': function gamesInsert(game) {
@@ -11,8 +12,19 @@ Meteor.methods({
       description: String,
       uploadsFileType: String,
       releaseStatus: String,
-      minPrice: Number,
-      uploads: [Object],
+      // minPrice: Number,
+      uploads: Match.Where((upload) => {
+        _.each(uploads, function(upload) {
+          check(upload._id, String);
+          check(upload.number, Number);
+          check(upload.name, String);
+          check(upload.filePath, String);
+          check(upload.platforms, Object);
+        });
+
+        return true;
+      }),
+      upload: String,
       platforms: [String],
       body: String,
       genre: String,
@@ -26,7 +38,13 @@ Meteor.methods({
       visibility: Boolean
     });
 
-    return Games.insert({ _id: shortid.generate(), owner: Meteor.user().username, ...game });
+    return Games.insert({
+      _id: shortid.generate(),
+      owner: Meteor.user().username,
+      createdAt: moment().valueOf(),
+      updatedAt: moment().valueOf(),
+      ...game
+    });
   },
   'games.update': function gamesUpdate(game) {
     check(game, {
@@ -35,8 +53,9 @@ Meteor.methods({
       description: String,
       uploadsFileType: String,
       releaseStatus: String,
-      minPrice: Number,
+      // minPrice: Number,
       uploads: [Object],
+      // upload: [String],
       platforms: [String],
       body: String,
       genre: String,
@@ -50,7 +69,7 @@ Meteor.methods({
       visibility: Boolean
     });
 
-    Games.update(game._id, { $set: game });
+    Games.update(game._id, { $set: {updatedAt: moment().valueOf(), game} });
     return game._id;
   },
   'games.remove': function gamesRemove(gameId) {

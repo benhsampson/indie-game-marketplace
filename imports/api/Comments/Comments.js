@@ -24,10 +24,10 @@ Comments.schema = new SimpleSchema({
     type: String,
     label: 'The username of the user the comment belongs to'
   },
-  createdAt: {
-    type: Date,
-    label: 'The date this comment was created'
-  },
+  // createdAt: {
+  //   type: Date,
+  //   label: 'The date this comment was created'
+  // },
   gameId: {
     type: String,
     label: 'The ID of the game the comment belongs to'

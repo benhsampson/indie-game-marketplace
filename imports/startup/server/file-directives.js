@@ -6,7 +6,7 @@ Slingshot.fileRestrictions('ProfilePicture', {
 });
 
 Slingshot.createDirective('ProfilePicture', Slingshot.S3Storage, {
-  bucket: 'indie-game-marketplace',
+  bucket: 'indie-game-marketplace-cloud',
   acl: 'public-read',
   authorize: function(file, metaContext) {
     if (!this.userId) {
@@ -25,7 +25,7 @@ Slingshot.fileRestrictions('GameFile', {
 });
 
 Slingshot.createDirective('GameFile', Slingshot.S3Storage, {
-  bucket: 'indie-game-marketplace',
+  bucket: 'indie-game-marketplace-cloud',
   acl: 'public-read',
   authorize: function(file, metaContext) {
     if (!this.userId) {
@@ -44,7 +44,7 @@ Slingshot.fileRestrictions('GameThumbnail', {
 });
 
 Slingshot.createDirective('GameThumbnail', Slingshot.S3Storage, {
-  bucket: 'indie-game-marketplace',
+  bucket: 'indie-game-marketplace-cloud',
   acl: 'public-read',
   authorize: function(file, metaContext) {
     if (!this.userId) {
@@ -63,7 +63,7 @@ Slingshot.fileRestrictions('GameBanner', {
 });
 
 Slingshot.createDirective('GameBanner', Slingshot.S3Storage, {
-  bucket: 'indie-game-marketplace',
+  bucket: 'indie-game-marketplace-cloud',
   acl: 'public-read',
   authorize: function(file, metaContext) {
     if (!this.userId) {
@@ -82,7 +82,7 @@ Slingshot.fileRestrictions('GameScreenshot', {
 });
 
 Slingshot.createDirective('GameScreenshot', Slingshot.S3Storage, {
-  bucket: 'indie-game-marketplace',
+  bucket: 'indie-game-marketplace-cloud',
   acl: 'public-read',
   authorize: function(file, metaContext) {
     if (!this.userId) {

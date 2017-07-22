@@ -142,10 +142,9 @@ export default class GameEditor extends Component {
               number: this.state.uploads.length,
               name: this.refs.gameFileUpload.files[0].name,
               filePath: gameFile,
-              platforms: {
-
-              }
+              // platforms: {}
             };
+
             newArray.push(upload);
 
             this.setState({uploads: newArray});
@@ -381,13 +380,17 @@ export default class GameEditor extends Component {
       }
     });
 
+    console.log(this.state.uploads[0]);
+
     const game = {
       title: this.refs.title.value.trim(),
       description: this.refs.description.value.trim(),
       uploadsFileType: this.refs.uploadsFileType.value,
       releaseStatus: this.refs.releaseStatus.value,
-      minPrice: Number(this.refs.price.value),
+      upload: this.state.uploads[0].filePath,
+      // minPrice: Number(this.refs.price.value),
       uploads: this.state.uploads,
+      // upload,
       platforms,
       body: this.refs.body.value.trim(),
       genre: this.refs.genre.value,
@@ -469,7 +472,7 @@ export default class GameEditor extends Component {
                       <label htmlFor="releaseStatus">Release Status</label>
                     </div>
                   </div>
-                  <div className="row">
+                  {/* <div className="row">
                     <div className="input-field col s12">
                       <input
                         type="number"
@@ -480,14 +483,14 @@ export default class GameEditor extends Component {
                       />
                       <label htmlFor="price">Pricing</label>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="row">
                     <div className="input-field col s12">
                       <select id="uploadsFileType" ref="uploadsFileType" defaultValue={this.props.game && this.props.game.uploadsFileType} className="required">
                         <option value="downloadable">Downloadable</option>
-                        <option value="html">HTML</option>
-                        <option value="flash">Flash</option>
-                        <option value="unity">Unity ≤ 5.3</option>
+                        <option value="html" disabled>HTML</option>
+                        <option value="flash" disabled>Flash</option>
+                        <option value="unity" disabled>Unity ≤ 5.3</option>
                       </select>
                       <label htmlFor="uploadsFileType">File Types</label>
                     </div>

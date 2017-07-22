@@ -20,12 +20,12 @@ export class UserSettings extends Component {
                     <li className="tab col s3">
                       <a href="#2">Password</a>
                     </li>
-                    <li className="tab col s3">
+                    {/* <li className="tab col s3">
                       <a href="#3">Payment</a>
                     </li>
                     <li className="tab col s3">
                       <a href="#4">Seller</a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>

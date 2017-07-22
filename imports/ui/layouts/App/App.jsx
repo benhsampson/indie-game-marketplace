@@ -20,6 +20,8 @@ import Profile from '../../pages/Profile/Profile';
 import GameView from '../../pages/GameView/GameView';
 import BrowseGames from '../../pages/BrowseGames/BrowseGames';
 import Dashboard from '../../pages/Dashboard/Dashboard';
+import PrivacyPolicy from '../../pages/PrivacyPolicy/PrivacyPolicy';
+import Documentation from '../../pages/Documentation/Documentation';
 import PageNotFound from '../../pages/PageNotFound/PageNotFound';
 import Footer from '../../components/Footer/Footer';
 
@@ -42,6 +44,8 @@ const App = props => (
           <Route path="/profile/:username" component={Profile} />
           <AuthenticatedRoute path="/user/settings" component={UserSettings} {...props} />
           <AuthenticatedRoute path="/user/dashboard" component={Dashboard} {...props} />
+          <Route path="/privacy" component={PrivacyPolicy} />
+          <Route path="/docs" component={Documentation} />
           <Route component={PageNotFound} />
         </Switch>
       </main>

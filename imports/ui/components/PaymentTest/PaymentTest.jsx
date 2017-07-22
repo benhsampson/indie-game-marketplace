@@ -22,7 +22,7 @@ export default class PaymentTest extends Component {
           amount: token.amount || SELF.props.price * 100,
           currency: token.currency || 'usd',
           source: token.id,
-          description: token.description || SELF.props.title,
+          description: token.description || SELF.props.description,
           receipt_email: token.email
         };
         Meteor.call('processPayment', charge, (err, res) => {
@@ -41,22 +41,26 @@ export default class PaymentTest extends Component {
     });
   }
   purchaseGame() {
-    console.log('Purchasing product...');
-    this.setState({processingPayment: true});
+    if (this.props.price >= this.props.minPrice) {
+      console.log('Purchasing product...');
+      this.setState({processingPayment: true});
 
-    INSTANCE.checkout.open({
-      name: this.props.title,
-      description: this.props.description,
-      amount: this.props.price * 100,
-      bitcoin: true
-    });
+      INSTANCE.checkout.open({
+        name: this.props.title,
+        description: this.props.description,
+        amount: this.props.price * 100,
+        bitcoin: true
+      });
+    } else {
+      Materialize.toast('Your chosen price must be equal to or greater than the minimum price.');
+    }
   }
   render() {
     const { processingPayment } = this.state;
 
     return (
-      <div>
-        {processingPayment ? <p>Processing payment...</p> : <button onClick={this.purchaseGame.bind(this)}>Buy '{this.props.title}'</button>}
+      <div className="left">
+        {processingPayment ? <p>Processing payment...</p> : <a onClick={this.purchaseGame.bind(this)} className="btn waves-effect waves-light">Pay With Card <i className="material-icons right">credit_card</i></a>}
       </div>
     );
   }

@@ -95,41 +95,43 @@ export default class Signup extends Component {
   }
   render() {
     return (
-      <div className="row">
-        <div className="form-panel card-panel col s12 m6 l4 offset-m3 offset-l4 z-depth-2">
-          <h4 className="center-align grey-text text-darken-4">Sign up to PLACEHOLDER</h4>
-          <p className="center-align grey-text text-darken-1">Join our awesome community!</p>
-          <form ref="form" onSubmit={e => e.preventDefault()}>
-            <div className="row">
-              <div className="input-field col s12">
-                <i className="material-icons prefix">account_circle</i>
-                <input type="text" id="username" ref="username" className="validate" />
-                <label htmlFor="username">Username</label>
+      <div className="container">
+        <div className="row">
+          <div className="form-panel card-panel col s12 m6 offset-m3 z-depth-2">
+            <h4 className="center-align grey-text text-darken-4">Sign up to indi.games</h4>
+            <p className="center-align grey-text text-darken-1">Join our awesome community!</p>
+            <form ref="form" onSubmit={e => e.preventDefault()}>
+              <div className="row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">account_circle</i>
+                  <input type="text" id="username" ref="username" className="validate" />
+                  <label htmlFor="username">Username</label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
-                <i className="material-icons prefix">email</i>
-                <input type="email" id="email" ref="email" className="validate" />
-                <label htmlFor="email">Email</label>
+              <div className="row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">email</i>
+                  <input type="email" id="email" ref="email" />
+                  <label htmlFor="email">Email</label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
-                <i className="material-icons prefix">lock</i>
-                <input type="password" id="password" ref="password" className="validate" />
-                <label htmlFor="password">Password</label>
+              <div className="row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">lock</i>
+                  <input type="password" id="password" ref="password" className="validate" />
+                  <label htmlFor="password">Password</label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
-                <i className="material-icons prefix">lock</i>
-                <input type="password" id="repeatPassword" ref="repeatPassword" className="validate" />
-                <label htmlFor="repeatPassword">Repeat Password</label>
+              <div className="row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">lock</i>
+                  <input type="password" id="repeatPassword" ref="repeatPassword" className="validate" />
+                  <label htmlFor="repeatPassword">Repeat Password</label>
+                </div>
               </div>
-            </div>
-            <button type="submit" name="action" className="btn waves-effect waves-light">Signup</button>
-          </form>
+              <button type="submit" name="action" className="btn waves-effect waves-light">Signup</button>
+            </form>
+          </div>
         </div>
       </div>
     );

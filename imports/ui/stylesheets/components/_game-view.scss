@@ -1,6 +1,19 @@
 .game-info {
   margin-top: 20px !important;
 }
+.modal-input {
+  margin-top: 40px !important;
+}
+
+.modal-footer {
+  bottom: 20px;
+  position: absolute;
+  width: calc(100% - 40px);
+}
+
+.price-label {
+  margin: 0 !important;
+}
 
 .game-view .parallax-container {
   height: 250px;
@@ -33,8 +46,7 @@
 }
 
 .game-view .left-section {
-  margin-top: 20px;
-  padding: 20px;
+  padding: 41px 20px;
   width: 100%;
 }
 
@@ -47,6 +59,10 @@
 .game-view .left-section .download-widget {
   height: 36px;
   margin: 0 !important;
+}
+
+.game-view .left-section .download-widget a.btn {
+  margin-right: 10px;
 }
 
 .game-view .left-section .download-widget p {
@@ -71,8 +87,7 @@
 }
 
 .game-view .right-section {
-  margin: 20px 0 0 0;
-  padding: 20px;
+  padding: 41px 20px;
   width: 100%;
 }
 
@@ -85,7 +100,7 @@
 
 .game-view .right-section .developer-widget img {
   height: 60px;
-  margin-right: 10px;
+  margin-right: 20px;
   width: 60px;
 }
 

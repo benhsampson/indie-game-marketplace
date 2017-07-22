@@ -1,5 +1,6 @@
 nav {
-  background-color: #00796b !important;
+  // background-color: #00796b !important;
+  z-index: 2 !important;
 }
 
 nav .nav-wrapper {
@@ -9,4 +10,36 @@ nav .nav-wrapper {
 nav .brand-logo {
   margin-right: 40px !important;
   position: relative !important;
+}
+
+.navbar-fixed .side-nav {
+  top: 56px;
+  transform: translateX(0%) !important;
+  width: 250px !important;
+  z-index: 999 !important;
+}
+
+.navbar-fixed .side-nav li {
+  padding: 0 !important;
+}
+
+.navbar-fixed .side-nav li.divider {
+  margin: 10px 0 !important;
+}
+
+.navbar-fixed .side-nav .collapsible-header {
+  margin: 0 !important;
+}
+
+.navbar-fixed .side-nav i {
+  margin: 0 !important;
+}
+
+.navbar-fixed .side-nav .collapsible-body a {
+  margin: 0 !important;
+  padding: 0 30px !important;
+}
+
+#sidenav-overlay {
+  z-index: 1 !important;
 }

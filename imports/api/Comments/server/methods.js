@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import Comments from '../Comments';
-import rateLimit from '../../../modules/rate-limit';
 import shortid from 'shortid';
+import moment from 'moment';
+import rateLimit from '../../../modules/rate-limit';
 
 Meteor.methods({
   'comments.insert': function commentsInsert(comment) {
@@ -11,7 +12,13 @@ Meteor.methods({
       comment: String
     });
 
-    return Comments.insert({ _id: shortid.generate(), owner: Meteor.user().username, ...comment })
+    console.log('inserting comment');
+
+    return Comments.insert({
+      _id: shortid.generate(),
+      owner: Meteor.user().username,
+      createdAt: moment().valueOf(),
+      ...comment})
   },
   'comments.remove': function commentsRemove(commentId) {
     check(commentId, String);

@@ -151,7 +151,7 @@ export default class SettingsProfile extends Component {
           </div>
           <div className="row">
             <div className="col s12">
-              <label htmlFor="profile-picture-drop-zone">ProfilePicture</label>
+              <label htmlFor="profile-picture-drop-zone">Profile Picture</label>
               <DropZone onDrop={this.uploadProfilePicture.bind(this)} className="profile-picture-drop-zone center-align grey-text text-darken-3">
                 {this.state.profilePicture ? (
                   <div>
